@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-When a baseball is hit to left or right field, the side spin created through contact with the bat causes the ball to hook or tail towards the foul line. This phenomenon exists regardless of the handedness of the batter - i.e. a ball hit by a right-handed batter to left OR right field will move towards the foul line, and the same is true for light-handed batters. Given the movement of the ball in flight, a left-handed thrower, who has the glove on their right hand, could have an advantage over a right-handed thrower on balls hit in the air to left field. As the batted ball tails towards the foul line, the left fielder moves to their right to catch the ball, and with the glove on their right hand they gain an advantage on the distance of the reach of their glove in that direction. The same is true for right-handed throwers playing right field; with the glove on their left hand, they could have an advantage as they move to their left to catch batted balls tailing towards the right field line.
+When a baseball is hit to left or right field, the side spin created through contact with the bat causes the ball to hook or tail toward the foul line. This phenomenon exists regardless of the handedness of the batter - i.e. a ball hit by a right-handed batter to left or right field will move in the direction of the foul line, and the same is true for light-handed batters. Given the movement of the ball in flight, a left-handed thrower, who has the glove on their right hand, could have an advantage over a right-handed thrower on balls hit in the air to left field. As the batted ball tails toward the foul line, the left fielder moves to their right to catch the ball, and with the glove on their right hand they might gain an advantage on the distance of the reach of their glove in that direction. The same is true for right-handed throwers playing right field; with the glove on their left hand, they could have an advantage as they move to their left to catch batted balls tailing toward the right field line.
 
-Note that for simplicity, moving forward left-handed throwing left fielders and right-handed throwing right fielders will be referred to as same-handed players, while right-handed left fielders and left-handed right fielders will be called opposite-handed players.
+For simplicity, left-handed throwing left fielders and right-handed throwing right fielders will be referred to as same-handed players, while right-handed left fielders and left-handed right fielders will be called opposite-handed players.
 
 ## Question
 
@@ -46,13 +46,13 @@ knitr::kable(data[1:5, 1:8])
 
 **NAME** - First and last name of player. Note, players who logged 100 or more innings in both corner outfield positions appear twice in the data set.
 
-**TEAM** - Team player played for. Note, players who appeared for multiple teams were removed from the data set. This was done to simplify the process of adjusting the data for Total Team Fly Balls / Inning during the regression analysis. 
+**TEAM** - Team player played for. Note, players who appeared for multiple teams were removed from the data set. This was done to simplify the process of adjusting the data for Total Team Fly Balls / Inn during the regression analysis. 
   
 **POSITION** - Position played by the player, either LF (left field) or RF (right field).
 
 **THROWS** - The hand the player throws with, either L (left) or R (right).
 
-**THROWS (INDICATOR)** - Indicator variable used in order to run regression analysis on the Throws variable. Same-handed players are assigned a value of 1 and opposite-handed throwers are given a value of 0.
+**THROWS (INDICATOR)** - Indicator variable used to run regression analysis on the Throws variable. Same-handed players are assigned a value of 1 and opposite-handed throwers are given a value of 0.
   
 **PO / INN** - PO (putouts or catches made) divided by the number of defensive innings played at the position. The average across all players in the data set is
 ```{r, echo = FALSE, results = "asis"}
@@ -74,7 +74,7 @@ cat(round(sum(team_data$cFB.IP)/nrow(team_data), 4))
 
 ## Analysis
 
-Multiple linear regression was used to test if the independent variable Throws has an affect on the dependent variable PO / Inn. In essence, does a player's handedness affect the number of catches they make per inning on average in the corner outfield positions? There are also some additional factors to consider. Faster players should cover more ground and catch more fly balls than slower players, and players who play for a team that allows more fly balls per inning would have more chances and should record more putouts than players on teams whose pitching staffs allow fewer fly balls per inning. To adjust for both Sprint Speed and Total Team Fly Balls / Inn, both of these independent variables were added to the regression model. The results of the regression are as follows:
+Multiple linear regression was used to test if the independent variable Throws has an affect on the dependent variable PO / Inn. In essence, does a player's handedness affect the number of catches they make per inning in the corner outfield positions? There are also some additional factors to consider. Faster players should cover more ground and catch more fly balls than slower players. Also, players who play for a team that allows more fly balls per inning would have more chances and should record more putouts than players on teams whose pitching staffs allow fewer fly balls per inning. To adjust for both Sprint Speed and Total Team Fly Balls / Inn, both of these independent variables were added to the regression model. The results of the regression are as follows:
 
 ```{r, echo = FALSE}
 PO_model <- lm(`PO / Inn` ~ `Throws (Indicator)` + `Sprint Speed` + `Total Team Fly Balls / Inn`, data = data)
@@ -83,7 +83,7 @@ summary(PO_model)
 
 ## Summary
 
-The regression model shows that a statistically significant positive relationship exists between same-handed corner outfielders and putouts per inning in the data set. However, only 20.65% of the variance in putouts per inning between players in the data is described by the independent variables included in the model (Throws, Sprint Speed, and Team Fly Balls / Inning), so there is uncertainty around the actual magnitude of the relationship between handedness and putouts per inning for defensive players in the corner outfield positions.
+The regression model shows a statistically significant positive relationship between same-handed corner outfielders and PO / Inn in the data set. However, only 20.65% of the variance in PO / Inn between players in the data is described by the independent variables included in the model (Throws, Sprint Speed, and Total Team Fly Balls / Inn), so there is uncertainty around the actual magnitude of the relationship between handedness and PO / Inn.
 
 **Throws (Indicator)**
 
@@ -91,30 +91,29 @@ The estimated coefficient for the Throws variable is
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[2,1], 4))
 ```
-, and is statistically significant from 0 meaning that there is a positive relationship between same-handed corner outfielders and putouts per inning. Since the indicator variable 1 for same-handed players and 0 for opposite-handed players was used, interpreted in context the coefficient provides the number of putouts per inning a player makes as a result of their handedness. This means that a same-handed corner outfielder has an advantage of almost 0.02 putouts per inning on average over opposite-handed corner outfielders. Over the course of a full season with say 1000 innings played, that advantage would result in almost 20 additional catches which is significant in terms of run value for the team. However, due to the low R-squared value of the regression, it is unlikely that the magnitude of the affect of throwing-handedness on putouts per inning is as high as the estimate produced by the model.
+, and it is statistically significant from 0 meaning that there is a positive relationship between same-handed corner outfielders and PO / Inn. Since the indicator variable was used (1 for same-handed players and 0 for opposite-handed players), interpreted in context the coefficient provides the additional number of PO / Inn a same-handed player makes. This means that a same-handed corner outfielder has an advantage of 0.0183 PO / Inn on average over opposite-handed corner outfielders. Over the course of a full season with say 1000 innings played, that advantage would result in around 18 additional catches which is significant in terms of run value for the team. However, due to the low R-squared value of the regression, it is unlikely that the magnitude of the affect of throwing-handedness on PO / Inn is as high as the estimate produced by the model.
 
 **Sprint Speed**
 The estimated coefficient for the variable Sprint Speed is 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[3,1], 4))
 ```
-. Multiplying a player's Sprint Speed by .002 would indicate the number of catches per inning a player makes as a result of their Sprint Speed. So, if a player runs 27.9 ft/sec (the average of the players in the data set), then they gain .0558 catches per inning. Surprisingly, the model did not find the estimate of the coefficient on Sprint Speed to be statistically significant from 0, meaning there is no evidence in the data that faster runners make more catches per inning. This could be due to the fact that to play at least 100 major league innings in the corner outfield a player must be a competent runner to begin with, so all players in the data set are close enough in their speed for that variable to not be a significant factor. The average Sprint Speed of players in the data set is 27.9 ft/sec while the average of all major league players in 2024 was 27.0 ft/sec.
+. Multiplying a player's Sprint Speed by .002 would indicate the number of catches per inning a player makes as a result of their Sprint Speed. So, if a player runs 27.9 ft/sec (the average of the players in the data set), then they gain .0558 catches per inning. Surprisingly, the model did not find the estimate of the coefficient on Sprint Speed to be statistically significant from 0, meaning there is no evidence in the data that faster runners make more catches per inning. This could be due to the fact that to play at least 100 major league innings in the corner outfield a player must be a competent runner to begin with, so all players in the data set are close enough in their speed for that variable to not be a significant factor. The average Sprint Speed of players in the data set is 27.9 ft/sec while the average across all major league players in 2024 is 27.0 ft/sec. In addition, other factors like positioning and jump may need to be adjusted for in order for Sprint Speed to gain statistical significance.
 
 **Total Team Fly Balls / Inn**
 The estimated coefficient for the variable Total Team Fly Balls / Inn is 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[4,1], 4))
 ```
-. Interpreted in context, if a team allows 0.9609 fly balls per innings (the major league average in 2024), then a corner outfielder would expect to make an additional 0.1821 catches per inning based solely on the number of non-home run fly balls allowed by the pitching staff of their team. Not surprisingly, the model found that the relationship between Total Team Fly Balls / Inning and Putouts / Inning to be statistically significant from 0.
+. This means if a team allows 0.9609 fly balls per innings (the major league average in 2024), then a corner outfielder would expect to make an additional 0.1821 catches per inning based solely on the number of non-home run fly balls allowed by the pitching staff of their team. Not surprisingly, the model found that the relationship between Total Team Fly Balls / Inn and PO / Inn is statistically significant from 0.
 
 **R-Squared**
 The model produced an R-squared value of 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$r.squared, 4))
 ```
-, which means only about 20.65% of the variance in PO / Inning between corner outfielders in the data set is due to the variables that were tested - Throws, Sprint Speed, and Total Team Fly Balls / Inn. An R-squared value this low, means that there is a lot of noise in the data and that other factors beyond those studied here are present in determining putouts per inning for corner outfielders.
+, meaning only about 20.65% of the variance in PO / Inn between corner outfielders in the data set is due to the variables that were tested - Throws, Sprint Speed, and Total Team Fly Balls / Inn. With an R-squared value this low, there is likely a lot of noise in the data and that other factors beyond those studied here are contributing to PO / Inn for corner outfielders.
 
-In conclusion, the relationship between same-handed corner outfielders and putouts per inning played is non-zero and positive for the observations in the data set, but due to the low R-squared value in the model it is unclear how impactful handedness is. Additional research is needed. Perhaps multiple seasons could be included to increase the size of the data set, and other variables should be considered such as outfielder positioning, jump, etc. Lastly, this was a quick analysis, but a more complete study of the topic might filter fly ball observations down to only those that require the outfielder to move in the direction of the foul line, or perhaps even just those fly balls in the "shadow" or "fringe" regions of the expected catch radius given the flight and trajectory of the batted ball and the starting position, jump, and foot speed of the player.
+In conclusion, the relationship between same-handed corner outfielders and PO / Inn is non-zero and positive for the observations in the data set, but due to the low R-squared value in the model it is unclear how impactful handedness is. Additional research is needed. Perhaps multiple seasons could be included to increase the size of the data set, and other variables should be considered such as outfielder positioning, jump, etc. Lastly, this was a quick analysis, but a more complete study of the topic might filter fly ball observations down to only those that require the outfielder to move in the direction of the foul line, or perhaps even just those fly balls in the "shadow" or "fringe" regions of the expected catch radius given the flight and trajectory of the batted ball and the starting position, jump, and foot speed of the player.
 
- 
 *Data Source: Fangraphs, Baseball Savant*

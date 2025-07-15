@@ -1,15 +1,16 @@
 of_data <- rbind(lf_data, rf_data)
 
 of_data <- of_data %>%
-  mutate(Throws = ifelse(Pos == "LF" & Throws..R.L. == "L", 1, ifelse(Pos == "RF" & Throws..R.L. == "R", 1, 0)))
+  mutate(Throws = ifelse(Pos == "LF" & Throws_LR == "L", 1, ifelse(Pos == "RF" & Throws_LR == "R", 1, 0)))
 
 ind <- match(of_data$Team, team_data$Team)
 
 of_data <- of_data %>%
-  mutate(cteamfbpct = team_data$Catchable.FB.[ind])
+  mutate(teamFB.Inn = team_data$cFB.IP[ind])
 
-tm_adj_of_data <- of_data %>%
-  filter(!is.na(cteamfbpct)) %>%
-  mutate(cteamfbpct = as.numeric(gsub("%", "", cteamfbpct)))
+adjusted_of_data <- of_data %>%
+  select(Name, Team, Pos, Throws_LR, Throws, PO.Inn, Sprint_Speed, teamFB.Inn) %>%
+  filter(!is.na(teamFB.Inn)) %>%
+  arrange(desc(PO.Inn))
 
-save(tm_adj_of_data, file = "rda/tm_adj_of_data.rda")
+save(adjusted_of_data, file = "rda/adjusted_of_data.rda")
