@@ -468,28 +468,28 @@ below:</p>
 </tr>
 </tbody>
 </table>
-<p><strong>NAME</strong> - First and last name of player. Note, players
+<p><strong>Name</strong> - First and last name of player. Note, players
 who logged 100 or more innings in both corner outfield positions appear
 twice in the data set.</p>
-<p><strong>TEAM</strong> - Team player played for. Note, players who
+<p><strong>Team</strong> - Team player played for. Note, players who
 appeared for multiple teams were removed from the data set. This was
 done to simplify the process of adjusting the data for Total Team Fly
 Balls / Inn during the regression analysis.</p>
-<p><strong>POSITION</strong> - Position played by the player, either LF
+<p><strong>Position</strong> - Position played by the player, either LF
 (left field) or RF (right field).</p>
-<p><strong>THROWS</strong> - The hand the player throws with, either L
+<p><strong>Throws</strong> - The hand the player throws with, either L
 (left) or R (right).</p>
-<p><strong>THROWS (INDICATOR)</strong> - Indicator variable used to run
+<p><strong>Throws (Indicator)</strong> - Indicator variable used to run
 regression analysis on the Throws variable. Same-handed players are
 assigned a value of 1 and opposite-handed throwers are given a value of
 0.</p>
-<p><strong>PO / INN</strong> - PO (putouts or catches made) divided by
+<p><strong>PO / Inn</strong> - PO (putouts or catches made) divided by
 the number of defensive innings played at the position. The average
 across all players in the data set is 0.2227 .</p>
-<p><strong>SPRINT SPEED</strong> - Statcast’s foot speed metric, defined
+<p><strong>Sprint Speed</strong> - Statcast’s foot speed metric, defined
 as feet per second in a player’s fastest one-second window on individual
 plays. The average across all players in the data set is 27.9 .</p>
-<p><strong>TOTAL TEAM FLY BALLS / INN</strong> - The total number of fly
+<p><strong>Total Team Fly Balls / Inn</strong> - The total number of fly
 balls allowed by the team’s pitching staff divided by the number of
 innings pitched, with home runs not included. Essentially, the number of
 balls hit in play per inning that could be catch-able fly balls. The
@@ -587,19 +587,21 @@ were tested - Throws, Sprint Speed, and Total Team Fly Balls / Inn. With
 an R-squared value this low, there is likely a lot of noise in the data
 and that other factors beyond those studied here are contributing to PO
 / Inn for corner outfielders.</p>
-<p>In conclusion, the relationship between same-handed corner
-outfielders and PO / Inn is non-zero and positive for the observations
-in the data set, but due to the low R-squared value in the model it is
-unclear how impactful handedness is. Additional research is needed.
-Perhaps multiple seasons could be included to increase the size of the
-data set, and other variables should be considered such as outfielder
-positioning, jump, etc. Lastly, this was a quick analysis, but a more
-complete study of the topic might filter fly ball observations down to
-only those that require the outfielder to move in the direction of the
-foul line, or perhaps even just those fly balls in the “shadow” or
-“fringe” regions of the expected catch radius given the flight and
-trajectory of the batted ball and the starting position, jump, and foot
-speed of the player.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>The relationship between same-handed corner outfielders and PO / Inn
+is non-zero and positive for the observations in the data set, but due
+to the low R-squared value in the model it is unclear how impactful
+handedness is. Additional research is needed. Perhaps multiple seasons
+could be included to increase the size of the data set, and other
+variables should be considered such as outfielder positioning, jump,
+etc. Lastly, this was a quick analysis, but a more complete study of the
+topic might filter fly ball observations down to only those that require
+the outfielder to move in the direction of the foul line, or perhaps
+even just those fly balls in the “shadow” or “fringe” regions of the
+expected catch radius given the flight and trajectory of the batted ball
+and the starting position, jump, and foot speed of the player.</p>
 <p><em>Data Source: Fangraphs, Baseball Savant</em></p>
 </div>
 

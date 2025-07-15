@@ -1,8 +1,3 @@
-library(tidyverse)
-library(dplyr)
-
-setwd("/Users/lukewamboldt/Desktop/R-Projects/Baseball-Projects/corner-outfield-handedness")
-
 of_data <- rbind(lf_data, rf_data)
 
 of_data <- of_data %>%
