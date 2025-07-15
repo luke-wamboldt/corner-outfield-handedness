@@ -14,3 +14,5 @@ adjusted_of_data <- of_data %>%
   arrange(desc(PO.Inn))
 
 save(adjusted_of_data, file = "rda/adjusted_of_data.rda")
+
+test <- of_data
