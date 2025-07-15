@@ -85,30 +85,25 @@ summary(PO_model)
 
 The regression model shows a statistically significant positive relationship between same-handed corner outfielders and PO / Inn in the data set. However, only 20.65% of the variance in PO / Inn between players in the data is described by the independent variables included in the model (Throws, Sprint Speed, and Total Team Fly Balls / Inn), so there is uncertainty around the actual magnitude of the relationship between handedness and PO / Inn.
 
-**Throws (Indicator)**
-
-The estimated coefficient for the Throws variable is 
+**Throws (Indicator)** - The estimated coefficient for the Throws variable is 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[2,1], 4))
 ```
 , and it is statistically significant from 0 meaning that there is a positive relationship between same-handed corner outfielders and PO / Inn. Since the indicator variable was used (1 for same-handed players and 0 for opposite-handed players), interpreted in context the coefficient provides the additional number of PO / Inn a same-handed player makes. This means that a same-handed corner outfielder has an advantage of 0.0183 PO / Inn on average over opposite-handed corner outfielders. Over the course of a full season with say 1000 innings played, that advantage would result in around 18 additional catches which is significant in terms of run value for the team. However, due to the low R-squared value of the regression, it is unlikely that the magnitude of the affect of throwing-handedness on PO / Inn is as high as the estimate produced by the model.
 
-**Sprint Speed**
-The estimated coefficient for the variable Sprint Speed is 
+**Sprint Speed** - The estimated coefficient for the variable Sprint Speed is 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[3,1], 4))
 ```
 . Multiplying a player's Sprint Speed by .002 would indicate the number of catches per inning a player makes as a result of their Sprint Speed. So, if a player runs 27.9 ft/sec (the average of the players in the data set), then they gain .0558 catches per inning. Surprisingly, the model did not find the estimate of the coefficient on Sprint Speed to be statistically significant from 0, meaning there is no evidence in the data that faster runners make more catches per inning. This could be due to the fact that to play at least 100 major league innings in the corner outfield a player must be a competent runner to begin with, so all players in the data set are close enough in their speed for that variable to not be a significant factor. The average Sprint Speed of players in the data set is 27.9 ft/sec while the average across all major league players in 2024 is 27.0 ft/sec. In addition, other factors like positioning and jump may need to be adjusted for in order for Sprint Speed to gain statistical significance.
 
-**Total Team Fly Balls / Inn**
-The estimated coefficient for the variable Total Team Fly Balls / Inn is 
+**Total Team Fly Balls / Inn** - The estimated coefficient for the variable Total Team Fly Balls / Inn is 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$coefficients[4,1], 4))
 ```
 . This means if a team allows 0.9609 fly balls per innings (the major league average in 2024), then a corner outfielder would expect to make an additional 0.1821 catches per inning based solely on the number of non-home run fly balls allowed by the pitching staff of their team. Not surprisingly, the model found that the relationship between Total Team Fly Balls / Inn and PO / Inn is statistically significant from 0.
 
-**R-Squared**
-The model produced an R-squared value of 
+**R-Squared** - The model produced an R-squared value of 
 ```{r, echo = FALSE, results = "asis"}
 print(round(summary(PO_model)$r.squared, 4))
 ```
